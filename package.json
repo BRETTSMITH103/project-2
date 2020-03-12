@@ -30,5 +30,6 @@
   "bugs": {
     "url": "https://github.com/BRETTSMITH103/project-2/issues"
   },
-  "homepage": "https://github.com/BRETTSMITH103/project-2#readme"
+  "homepage": "https://github.com/BRETTSMITH103/project-2#readme",
+  "devDependencies": {}
 }
