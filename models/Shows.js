@@ -8,9 +8,9 @@ Post.init(
   {
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      len: [1]
     },
-    body: {
     toWatch: {
     type: boolean,
     default: false
@@ -22,8 +22,7 @@ Post.init(
     completed: {
     type: boolean,
     default: true
-},
-  {
+}
     sequelize
   }
 );
