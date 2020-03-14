@@ -6,6 +6,8 @@ const { Show, User } = require('../../models');
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
 
+const Op = Sequelize.Op;
+
 // get all Shows with associated users
 
 // https://gist.github.com/zcaceres/83b554ee08726a734088d90d455bc566
@@ -23,7 +25,7 @@ router.get('/', checkAuth, (req, res) => {
 router.get('/:query', (req, res) => {
   Show.findOne({
     where: {
-      $or:[
+      [Op.or]:[
         {
       id: req.params.query
         },
@@ -73,7 +75,7 @@ router.post('/', checkAuth, (req, res) => {
 router.put('/:query', (req, res) => {
   Show.update(req.body, {
     where: {
-      $or: [
+      [Op.or]: [
         {
           id: req.params.query
         },
