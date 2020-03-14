@@ -6,13 +6,13 @@ const { User, Show, } = require('../../models');
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
 
-// get all Posts with associated users
+// get all Shows with associated users
 
 // https://gist.github.com/zcaceres/83b554ee08726a734088d90d455bc566
 
 router.get('/', checkAuth, (req, res) => {
   User.findAll()
-    .then(postdata => res.json(postdata))
+    .then(postdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
@@ -34,7 +34,7 @@ router.get('/:query', (req, res) => {
     },
     include: [User]
   })
-    .then(postdata => res.json(postdata))
+    .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
@@ -62,14 +62,14 @@ router.post('/', checkAuth, (req, res) => {
   req.body.UserId = req.id;
 
   User.create(req.body)
-    .then(postdata => res.json(postdata))
+    .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
     });
 });
 
-// update shows by id
+// update shows by id or email
 router.put('/:query', (req, res) => {
   User.update(req.body, {
     where: {
@@ -84,21 +84,21 @@ router.put('/:query', (req, res) => {
     },
     include: [User]
   })
-    .then(postdata => res.json(postdata))
+    .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
     });
 });
  
-// delete post by id, do we want to delete posts?
+// delete show by id, do we want to delete shows?
 // router.delete('/:id', (req, res) => {
 //   User.destroy({
 //     where: {
 //       id: req.params.query
 //     }
 //   })
-//     .then(postdata => res.json(postdata))
+//     .then(showdata => res.json(showdata))
 //     .catch(err => {
 //       console.log(err);
 //       res.json(err);
