@@ -11,16 +11,21 @@ Post.init(
       allowNull: false
     },
     body: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        len: [1]
-      }
-    }
-  },
+    toWatch: {
+    type: boolean,
+    default: false
+}, 
+    watching: {
+    type: boolean,
+    default: false
+},
+    completed: {
+    type: boolean,
+    default: true
+},
   {
     sequelize
   }
 );
 
-module.exports = Post;
+module.exports = Shows;
