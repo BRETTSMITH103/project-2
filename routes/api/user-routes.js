@@ -17,15 +17,15 @@ router.get('/', (req, res) => {
 router.get('/:query', (req, res) => {
   User.findOne({
     where: {
-      $or: [
-        {
+      // $or: [
+      //   {
           id: req.params.query
-        },
-        {
-          email: req.params.query
-        }
+        // },
+        // {
+        //   email: req.params.query
+        // }
 
-      ]
+      // ]
     },
     include: [Show]
   })
