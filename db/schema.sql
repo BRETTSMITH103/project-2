@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS "________";
+DROP DATABASE IF EXISTS watchList;
 
-CREATE DATABASE "_________";
+CREATE DATABASE watchList;

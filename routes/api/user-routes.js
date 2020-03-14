@@ -1,7 +1,9 @@
 // import express router
 const router = require('express').Router();
 //import models
-const { User, Show, } = require('../../models');
+const { Show, User } = require('../../models');
+
+const Op = Sequelize.Op;
 
 // get all users
 router.get('/', (req, res) => {
@@ -17,7 +19,7 @@ router.get('/', (req, res) => {
 router.get('/:query', (req, res) => {
   User.findOne({
     where: {
-      $or: [
+      [Op.or]: [
         {
           id: req.params.query
         },
