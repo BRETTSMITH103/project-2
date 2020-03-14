@@ -1,7 +1,7 @@
 // import express router
 const router = require('express').Router();
 //import models
-const { User, Show, } = require('../../models');
+const { Show, User } = require('../../models');
 
 // get all users
 router.get('/', (req, res) => {

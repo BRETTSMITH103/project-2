@@ -1,10 +1,10 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 // create our Post model
-class Post extends Model {}
+class Show extends Model { }
 
 // create fields/columns for Post model
-Post.init(
+Show.init(
   {
     title: {
       type: DataTypes.STRING,
@@ -12,19 +12,24 @@ Post.init(
       len: [1]
     },
     toWatch: {
-    type: boolean,
-    default: false
-}, 
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      default: false
+    },
     watching: {
-    type: boolean,
-    default: false
-},
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      default: false
+    },
     completed: {
-    type: boolean,
-    default: true
-}
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      default: true
+    }
+  },
+  {
     sequelize
   }
 );
 
-module.exports = Shows;
+module.exports = Show;

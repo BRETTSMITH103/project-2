@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const { User } = require('../..models');
+const { User } = require('../../models');
 
 // sign in and authenticate user
 // 

@@ -1,7 +1,7 @@
 // / import express router
 const router = require('express').Router();
 // import models
-const { User, Show, } = require('../../models');
+const { Show, User } = require('../../models');
 
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
@@ -11,8 +11,8 @@ const checkAuth = require('../../middleware/check-auth');
 // https://gist.github.com/zcaceres/83b554ee08726a734088d90d455bc566
 
 router.get('/', checkAuth, (req, res) => {
-  User.findAll()
-    .then(postdata => res.json(showdata))
+  Show.findAll()
+    .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
@@ -21,7 +21,7 @@ router.get('/', checkAuth, (req, res) => {
 
 // get shows by id with associated User
 router.get('/:query', (req, res) => {
-  User.findOne({
+  Show.findOne({
     where: {
       $or:[
         {
@@ -61,7 +61,7 @@ router.post('/', checkAuth, (req, res) => {
   // set UserID
   req.body.UserId = req.id;
 
-  User.create(req.body)
+  Show.create(req.body)
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
@@ -71,7 +71,7 @@ router.post('/', checkAuth, (req, res) => {
 
 // update shows by id or email
 router.put('/:query', (req, res) => {
-  User.update(req.body, {
+  Show.update(req.body, {
     where: {
       $or: [
         {
