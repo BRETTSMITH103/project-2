@@ -3,6 +3,10 @@ const router = require('express').Router();
 //import models
 const { Show, User } = require('../../models');
 
+const Sequelize = require('sequelize');
+
+const Op = Sequelize.Op;
+
 // get all users
 router.get('/', (req, res) => {
   User.findAll()
@@ -17,15 +21,14 @@ router.get('/', (req, res) => {
 router.get('/:query', (req, res) => {
   User.findOne({
     where: {
-      // $or: [
-      //   {
+      [Op.or]: [
+        {
           id: req.params.query
-        // },
-        // {
-        //   email: req.params.query
-        // }
-
-      // ]
+        },
+        {
+          email: req.params.query
+        }
+      ]
     },
     include: [Show]
   })
@@ -47,11 +50,11 @@ router.post('/', (req, res) => {
   */
 
   User.create(req.body)
-  .then(userdata => res.json(userdata))
-  .catch(err => {
-    console.log(err);
-    res.json(err);
-  });
+    .then(userdata => res.json(userdata))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    });
 });
 
 // do we need an update user method?
