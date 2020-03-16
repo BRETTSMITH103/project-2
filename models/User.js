@@ -2,25 +2,18 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-<<<<<<< HEAD
+
 // create our User model
 class User extends Model {
   // set up method to run on instance data (per user) to check password
-=======
 
 class User extends Model {
-  
->>>>>>> f7718e4d3c6f89397151667bf7513d696807ae4d
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
-<<<<<<< HEAD
 // create fields/columns for User model
-=======
-
->>>>>>> f7718e4d3c6f89397151667bf7513d696807ae4d
 User.init(
   {
     name: {

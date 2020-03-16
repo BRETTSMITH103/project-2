@@ -6,6 +6,8 @@ const { Show, User } = require('../../models');
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
 
+
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 // get all Shows with associated users
