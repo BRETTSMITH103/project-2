@@ -1,7 +1,11 @@
 // import express router
 const router = require('express').Router();
 //import models
-const { User, Show, } = require('../../models');
+const { Show, User } = require('../../models');
+
+
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const Op = Sequelize.Op;
 
@@ -26,7 +30,6 @@ router.get('/:query', (req, res) => {
         {
           email: req.params.query
         }
-
       ]
     },
     include: [Show]
@@ -49,11 +52,11 @@ router.post('/', (req, res) => {
   */
 
   User.create(req.body)
-  .then(userdata => res.json(userdata))
-  .catch(err => {
-    console.log(err);
-    res.json(err);
-  });
+    .then(userdata => res.json(userdata))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    });
 });
 
 // do we need an update user method?
