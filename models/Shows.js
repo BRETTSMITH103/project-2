@@ -9,7 +9,7 @@ Post.init(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
-      len: [1]
+      len: [150]
     },
     toWatch: {
     type: boolean,

@@ -6,6 +6,21 @@ const { User, Show, } = require('../../models');
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
 
+const inquirer = require('inquirer');
+const axios = require('axios');
+
+const promiseHandler = promise => promise.then(res => [null, res]).catch(err => [err, null]);
+
+const init = async () => {
+  const responseObj = await inquirer.prompt(questions);
+
+  const [axiosErr, { data:tvmazeData }] = await promiseHandler( axios.get('http://api.tvmaze.com/shows/1${responseObj.watchlist}')
+  );
+  if (axiosErr) {
+    return console.log(axiosErr);
+  }
+}
+
 // get all Shows with associated users
 
 // https://gist.github.com/zcaceres/83b554ee08726a734088d90d455bc566
