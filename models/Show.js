@@ -13,18 +13,22 @@ Show.init(
     },
     toWatch: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      default: false
+      allowNull: true,
+      defaultValue: true
     },
     watching: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      default: false
+      allowNull: true,
+      defaultValue: false
     },
     completed: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      default: true
+      allowNull: true,
+      defaultValue: false
+    },
+    tvMazeId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   },
   {
