@@ -3,8 +3,8 @@ const router = require('express').Router();
 //import models
 const { Show, User } = require('../../models');
 
-const Sequelize = require('sequelize');
 
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 // get all users
