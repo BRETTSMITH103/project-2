@@ -6,10 +6,17 @@ const { Show, User } = require('../../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+//import node-fetch npm
+const fetch = require('node-fetch');
+
 //this is where we will have our routes that both return data on what's in our database as well as interfaces with tvmaze API to return extra data on individual shows.
 
 // get more data for individual show
 router.get('/info/:query', (req, res) =>{ 
+  /*** 
+   !!! USE THIS ENDPOINT: http://api.tvmaze.com/shows/:id !!!
+   ***/
+
   //1. find the tvmaze id for the show we queried
 
   //2. send the tvmaze id to tvmaze api and get back data

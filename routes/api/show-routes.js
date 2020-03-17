@@ -7,9 +7,11 @@ const { Show, User } = require('../../models');
 const checkAuth = require('../../middleware/check-auth');
 const jwt = require('jsonwebtoken');
 
-
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+
+//import node-fetch npm
+const fetch = require('node-fetch');
 
 // get all Shows - we might not need this for users but we might need it for our queries
 // https://gist.github.com/zcaceres/83b554ee08726a734088d90d455bc566
@@ -91,10 +93,10 @@ router.post('/me/', checkAuth, (req, res) => {
   // watching: false,
   // completed: false,
   // UserId: 1
-
-  //OPTIONAL? Depending on how we wanna do this:
   // TvMazeId: 32
-  // }  
+  // }
+
+  //
 
   const token = (req.headers.authorization)
     .split(' ')
@@ -105,8 +107,21 @@ router.post('/me/', checkAuth, (req, res) => {
   // set UserID
   req.body.UserId = payload.data.id;
 
-  Show.create(req.body)
-    .then(showdata => res.json(showdata))
+  const queryTitle = `http://api.tvmaze.com/singlesearch/shows?q=${req.body.title}`;
+
+  fetch(queryTitle)
+    .then(response => response.json())
+    .then(data => {
+      // set tvmazeid
+      req.body.tvMazeId = data.id;
+
+      Show.create(req.body)
+        .then(showdata => res.json(showdata))
+        .catch(err => {
+          console.log(err);
+          res.json(err);
+        });
+    })
     .catch(err => {
       console.log(err);
       res.json(err);
@@ -121,10 +136,12 @@ router.put('/me/:query', checkAuth, (req, res) => {
     .trim();
   const payload = jwt.decode(token);
 
+  console.log(req.body);
+
   // set UserID
   req.body.UserId = payload.data.id;
 
-
+  //the functionality for if a user updates something to true the others are false would make more sense in a index.js in a public folder
   Show.update(req.body, {
     where: {
       [Op.and]: [
