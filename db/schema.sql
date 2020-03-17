@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+DROP DATABASE IF EXISTS "Watchlist"
+
+CREATE DATABASE "Watchlist";
+=======
 DROP DATABASE IF EXISTS watchList;
 
 CREATE DATABASE watchList;
+>>>>>>> 02a962b3099f207affcb04b65e2852fb1318f73c
