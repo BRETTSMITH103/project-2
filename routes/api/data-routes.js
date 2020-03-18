@@ -17,7 +17,7 @@ router.get('/info/:query', (req, res) =>{
    !!! USE THIS ENDPOINT: http://api.tvmaze.com/shows/:id !!!
    ***/
   //1. find the tvmaze id for the show we queried
-const showTitle = `http://api.tvmaze.com/shows/:id=${TvMazeId}`;
+const tvMazeId = `http://api.tvmaze.com/shows/:id=${TvMazeId}`;
   //2. send the tvmaze id to tvmaze api and get back data
 fetch(tvMazeId)
   .then(response => res.json(tvmazedata))
@@ -25,7 +25,7 @@ fetch(tvMazeId)
     req.body.tvMazeId = data.id;
 
   //3. send back data to the user
-    Show.create(req.body)
+    Id.create(req.body)
       .then(showdata => res.json(tvmazedata))
       .catch(err => {
         console.log(err);
