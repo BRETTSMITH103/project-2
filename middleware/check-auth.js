@@ -22,6 +22,8 @@ const checkAuth = (req, res, next) => {
         .trim();
     }
 
+    console.log(token);
+
     //check if jw token is valid
     jwt.verify(token, 'R4BLW4TCH', (err, decoded) => { //should the secret key be in the .env file?
       if(err) {
@@ -31,8 +33,13 @@ const checkAuth = (req, res, next) => {
         });
         return;
       }
-      req.email = decoded.email;
-      req.id = decoded.id;
+
+      console.log(decoded);
+      req.email = decoded.data.email;
+      req.id = decoded.data.id;
+
+      //console.log(req);
+
       next();
     }); 
 };
