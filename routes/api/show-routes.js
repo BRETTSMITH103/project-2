@@ -1,7 +1,7 @@
 // / import express router
 const router = require('express').Router();
 // import models
-const { Show, User } = require('../../models');
+const { Show } = require('../../models');
 
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
@@ -29,15 +29,9 @@ router.get('/all', (req, res) => {
 // we also want this to be the default
 router.get('/me', checkAuth, (req, res) => { //how do we do or? we want this route to be '/' OR '/me'
 
-  const token = (req.headers.authorization)
-    .split(' ')
-    .pop()
-    .trim();
-  const payload = jwt.decode(token);
-
   Show.findAll({
     where: {
-      UserId: payload.data.id
+      UserId: req.id
     },
   })
     .then(showdata => res.json(showdata))
@@ -51,17 +45,11 @@ router.get('/me', checkAuth, (req, res) => { //how do we do or? we want this rou
 // get show by id or title associated with authenticated User ('on my watchlist')
 router.get('/me/:query', checkAuth, (req, res) => {
 
-  const token = (req.headers.authorization)
-    .split(' ')
-    .pop()
-    .trim();
-  const payload = jwt.decode(token);
-
   Show.findOne({
     where: {
       [Op.and]: [
         {
-          UserId: payload.data.id
+          UserId: req.id
         },
         {
           [Op.or]: [
@@ -85,7 +73,7 @@ router.get('/me/:query', checkAuth, (req, res) => {
 
 // create a new show entry
 
-router.post('/me/', checkAuth, (req, res) => {
+router.post('/me', checkAuth, (req, res) => {
   // /* 
   //{
   // title: "Show Title",
@@ -98,14 +86,8 @@ router.post('/me/', checkAuth, (req, res) => {
 
   //
 
-  const token = (req.headers.authorization)
-    .split(' ')
-    .pop()
-    .trim();
-  const payload = jwt.decode(token);
-
   // set UserID
-  req.body.UserId = payload.data.id;
+  req.body.UserId = req.id;
 
   const queryTitle = `http://api.tvmaze.com/singlesearch/shows?q=${req.body.title}`;
 
@@ -130,23 +112,16 @@ router.post('/me/', checkAuth, (req, res) => {
 
 // update shows by id or title
 router.put('/me/:query', checkAuth, (req, res) => {
-  const token = (req.headers.authorization)
-    .split(' ')
-    .pop()
-    .trim();
-  const payload = jwt.decode(token);
-
-  console.log(req.body);
 
   // set UserID
-  req.body.UserId = payload.data.id;
+  req.body.UserId = req.id;
 
   //the functionality for if a user updates something to true the others are false would make more sense in a index.js in a public folder
   Show.update(req.body, {
     where: {
       [Op.and]: [
         {
-          UserId: payload.data.id
+          UserId: req.id
         },
         {
           [Op.or]: [
@@ -169,17 +144,5 @@ router.put('/me/:query', checkAuth, (req, res) => {
 });
 
 // delete show by id, do we want to delete shows?
-// router.delete('/me/:query', (req, res) => {
-//   User.destroy({
-//     where: {
-//       id: req.params.query
-//     }
-//   })
-//     .then(showdata => res.json(showdata))
-//     .catch(err => {
-//       console.log(err);
-//       res.json(err);
-//     });
-// });
 
 module.exports = router;
