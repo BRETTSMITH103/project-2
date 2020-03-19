@@ -1,7 +1,7 @@
 // / import express router
 const router = require('express').Router();
 // import models
-const { Show, User } = require('../../models');
+const { Show } = require('../../models');
 
 // import auth middleware
 const checkAuth = require('../../middleware/check-auth');
