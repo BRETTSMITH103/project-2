@@ -7,8 +7,6 @@ const { Show, User } = require('../../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-const Op = Sequelize.Op;
-
 // get all users
 router.get('/', (req, res) => {
   User.findAll()
