@@ -18,12 +18,37 @@ router.get('/info/:query', (req, res) =>{
   /*** 
    !!! USE THIS ENDPOINT: http://api.tvmaze.com/shows/:id !!!
    ***/
-
   //1. find the tvmaze id for the show we queried
-
+  Show.findOne({
+    where: {
+      [Op.or]: [
+        {
+          id: req.params.query
+        },
+        {
+          title: req.params.query
+        }
+      ]
+    }
+  })
+  .then(showdata => {
+      const queryId = `http://api.tvmaze.com/shows/${showdata.tvMazeId}`
   //2. send the tvmaze id to tvmaze api and get back data
-
+  fetch(queryId)
+  .then(response => response.json())
   //3. send back data to the user
+  .then(data => res.json(data))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    res.json(err);
+  })
+ 
+
 
 });
 
