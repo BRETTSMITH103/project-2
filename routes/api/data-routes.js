@@ -6,6 +6,8 @@ const { Show, User } = require('../../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+const sequelize = require('../../config/connection');
+
 //import node-fetch npm
 const fetch = require('node-fetch');
 
@@ -32,6 +34,13 @@ router.get('/popular', (req, res) => {
   //this will require some specific querying in Sequelize
 
   //do we want to do like... top 1 or top 5? or what?
+ 
+    sequelize.query("SELECT title FROM shows GROUP BY title HAVING count(*) > 1", { model: Show })
+    .then(showdata => res.json(showdata))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
 
 });
 
