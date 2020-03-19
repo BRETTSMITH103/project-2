@@ -19,12 +19,34 @@ router.get('/info/:query', (req, res) =>{
    !!! USE THIS ENDPOINT: http://api.tvmaze.com/shows/:id !!!
    ***/
 
-  //1. find the tvmaze id for the show we queried
-
-  //2. send the tvmaze id to tvmaze api and get back data
-
-  //3. send back data to the user
-
+  Show.findOne({
+    where: {
+      [Op.or]: [
+        {
+          id: req.params.query
+        },
+        {
+          title: req.params.query
+        }
+      ]
+    }
+  })
+  .then(showdata => {
+      //1. find the tvmaze id for the show we queried
+      const queryId = `http://api.tvmaze.com/shows/${showdata.tvMazeId}`
+    //2. send the tvmaze id to tvmaze api and get back data
+    fetch(queryId)
+    .then(response => response.json())
+    .then(data => res.json(data))   //3. send back data to the user
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
+  })
+  .catch(err => {
+    console.log(err);
+    res.json(err);
+  })
 });
 
 // get most popular show
@@ -35,13 +57,12 @@ router.get('/popular', (req, res) => {
 
   //do we want to do like... top 1 or top 5? or what?
  
-    sequelize.query("SELECT title FROM shows GROUP BY title HAVING count(*) > 1", { model: Show })
+    sequelize.query("SELECT title FROM shows GROUP BY title HAVING count(*) > 1", { type: sequelize.QueryTypes.SELECT })
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
     })
-
 });
 
 
