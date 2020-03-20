@@ -47,27 +47,53 @@ router.get('/info/:query', (req, res) =>{
     console.log(err);
     res.json(err);
   })
- 
-
 
 });
 
-// get most popular show
+// get most popular shows
 router.get('/popular', (req, res) => {
-  // find the show/shows (by title or by tvmaze id) that shows up the most in our database and let the user know
-
-  //this will require some specific querying in Sequelize
-
-  //do we want to do like... top 1 or top 5? or what?
- 
-    sequelize.query("SELECT title FROM shows GROUP BY title HAVING count(*) > 1", { model: Show })
+  // ranks the shows in our database from most to least occurrences
+    sequelize.query("SELECT title, count(*) as 'count' FROM shows GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
       res.json(err);
     })
-
 });
+
+// get most popular shows to watch
+router.get('/popular/towatch', (req, res) => {
+  // ranks the shows where toWatch = true from most to least occurrences
+    sequelize.query("SELECT title, count(*) as 'count' FROM shows WHERE toWatch = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    .then(showdata => res.json(showdata))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
+});
+
+// get most popular shows watching
+router.get('/popular/watching', (req, res) => {
+  // ranks the shows where toWatch = true from most to least occurrences
+    sequelize.query("SELECT title, count(*) as 'count' FROM shows WHERE watching = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    .then(showdata => res.json(showdata))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
+});
+
+// get most popular shows completed
+router.get('/popular/completed', (req, res) => {
+  // ranks the shows where toWatch = true from most to least occurrences
+    sequelize.query("SELECT title, count(*) as 'count' FROM shows WHERE completed = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    .then(showdata => res.json(showdata))
+    .catch(err => {
+      console.log(err);
+      res.json(err);
+    })
+});
+
 
 
 module.exports = router;
