@@ -53,7 +53,7 @@ router.get('/info/:query', (req, res) =>{
 // get most popular shows
 router.get('/popular', (req, res) => {
   // ranks the shows in our database from most to least occurrences
-    sequelize.query("SELECT title, count(*) as 'count' FROM shows GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    sequelize.query("SELECT title, count(*) as 'count' FROM Shows GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
@@ -64,7 +64,7 @@ router.get('/popular', (req, res) => {
 // get most popular shows to watch
 router.get('/popular/towatch', (req, res) => {
   // ranks the shows where toWatch = true from most to least occurrences
-    sequelize.query("SELECT title, count(*) as 'count' FROM shows WHERE toWatch = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    sequelize.query("SELECT title, count(*) as 'count' FROM Shows WHERE toWatch = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
@@ -75,7 +75,7 @@ router.get('/popular/towatch', (req, res) => {
 // get most popular shows watching
 router.get('/popular/watching', (req, res) => {
   // ranks the shows where toWatch = true from most to least occurrences
-    sequelize.query("SELECT title, count(*) as 'count' FROM shows WHERE watching = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    sequelize.query("SELECT title, count(*) as 'count' FROM Shows WHERE watching = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
@@ -86,7 +86,7 @@ router.get('/popular/watching', (req, res) => {
 // get most popular shows completed
 router.get('/popular/completed', (req, res) => {
   // ranks the shows where toWatch = true from most to least occurrences
-    sequelize.query("SELECT title, count(*) as 'count' FROM shows WHERE completed = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
+    sequelize.query("SELECT title, count(*) as 'count' FROM Shows WHERE completed = true GROUP BY title ORDER BY count(*) DESC",{ type: sequelize.QueryTypes.SELECT})
     .then(showdata => res.json(showdata))
     .catch(err => {
       console.log(err);
