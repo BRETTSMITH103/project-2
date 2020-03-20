@@ -149,7 +149,7 @@ router.delete('/me/:id', checkAuth, (req, res) => {
   req.body.UserId = req.id;
 
   //the functionality for if a user updates something to true the others are false would make more sense in a index.js in a public folder
-  Show.destroy(req.body, {
+  Show.destroy({
     where: {
       [Op.and]: [
         {
