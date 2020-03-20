@@ -20,24 +20,25 @@ You can get some data without being logged in, but most things will require auth
 
 Your steps are to:
 1. [Create your user information if you're not already in the database.](#post--create-user)
-2. [Log in with your email and password, and save the webtoken given to you.](#post-|-log-in)
+2. [Log in with your email and password, and save the webtoken given to you.](#post--log-in)
 3. When sending requests to endpoints that require authentication, make sure to send your webtoken as well!
 
 ## Routes List:
 * [POST - Create User](#post--create-user)
-* [POST - Log In](#post-|-log-in)
-* [GET - Get My Watchlist](#get-|-get-my-watchlist)
-* [POST - Add to My Watchlist](#post-|-add-to-watchlist)
-* [GET - Get one Show from My Watchlist by title/id](#get-|-get-from-watchlist)
-* [PUT - Update Show on My Watchlist](#put-|-update-show-on-watchlist)
-* [GET - Get List of Users](#get-|-get-all-users)
-* [GET - Get one User by email/id](#get-|-get-one-user)
-* [GET - Get All Show Instances in Database](#get-|-get-all-shows)
-* [GET - Get Show's TvMaze Info by title/id](#)
-* GET - Get list of Database's Most to Least Popular Shows
-* GET - Get list of Database's Most to Least Popular Shows To Watch
-* GET - Get list of Database's Most to Least Popular Shows Being Watched
-* GET - Get list of Database's Most to Least Popular Shows Completed
+* [POST - Log In](#post--log-in)
+* [GET - Get My Watchlist](#get--get-my-watchlist)
+* [POST - Add to My Watchlist](#post--add-to-watchlist)
+* [GET - Get one Show from My Watchlist by title/id](#get--get-from-watchlist)
+* [PUT - Update Show on My Watchlist](#put--update-show-on-watchlist)
+* [GET - Get List of Users](#get--get-all-users)
+* [GET - Get one User by email/id](#get--get-one-user)
+* [GET - Get All Show Instances in Database](#get--get-all-shows)
+* [GET - Get Show's TvMaze Info by title/id](#get--get-show-info)
+* [GET - Get list of Database's Most to Least Popular Shows](#get--get-popular-shows)
+* [GET - Get list of Database's Most to Least Popular Shows To Watch](#get--get-popular-shows-to-watch)
+* [GET - Get list of Database's Most to Least Popular Shows Being Watched](#get--get-popular-shows-watching)
+* [GET - Get list of Database's Most to Least Popular Shows Completed](#get--get-popular-shows-completed)
+* [DELETE - Delete a Show on My Watchlist by id](#delete--delete-show-on-watchlist)
 
 ## POST | Create User
 `https://immense-dawn-42979.herokuapp.com/api/users`
@@ -80,6 +81,8 @@ The only data you will need to send is your token.
 Select Auth > Bearer token. Then paste your token in the token field.
 #### RESPONSE:
 The 200 response should show you an array containing all of the show objects you added while using the token associated with the logged in user. If you haven't added any shows, it will return an empty array.
+
+_We don't have separate endpoints for My `toWatch`, `watching`, or `completed` because we don't need to restrict the display here. Instead, that can be done in the front end javascript. If we find users' watchlists get very large, however, it will be easy to add those routes if necessary._
 
 ## POST | Add to Watchlist
 `https://immense-dawn-42979.herokuapp.com/api/shows/me`
@@ -167,11 +170,91 @@ The 200 response will return a user object with an email or id matching what rep
 ## GET | Get All Shows
 `https://immense-dawn-42979.herokuapp.com/api/shows/all`
 #### REQUEST
-![Get all shows is simple: just used the endpoint](./assets/GET_shows_all.png)
+![Get all shows is simple: just use the endpoint](./assets/GET_shows_all.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want.
 #### RESPONSE
 The 200 response will return an array containing all show objects in the database, with their associated `userId`. This response will contain duplicate titles if multiple users have entered the same title. Each instance can be distinguished by either their `id` or their associated `userId`.
+
+## GET | Get Show Info
+`https://immense-dawn-42979.herokuapp.com/api/data/info/:query`
+#### REQUEST
+'`:query`' should be replaced by the Show's title (including spaces) or by their id in our database.
+
+![Get show info is simple: just use the endpoint](./assets/GET_data_info.png)
+
+Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. Right now it just returns all data sent from the TvMaze API, but there's more to come!
+
+#### RESPONSE
+![Get show info returns the data for the show stored in the TvMaze database](./assets/GET_data_info_res.png)
+
+The 200 response will return an object of all the data matching this title from the TvMaze API. We use the stored tvMazeId for our Show to send to the TvMaze database.
+
+_Right now, we don't have any error message in place for when our tvMazeId is null (meaning the Show doesn't exist in the TvMaze database). Additionally, we want this route to also return some metadata on the Show in our database. We want to also return how many times it is listed in our database, how many times it shows up as `toWatch`, `watching` and `completed`. Maybe it will even show the users who have this Show listed as such, if you are authenticated. We also wanted to implement a way for users to track what episode they're on. So down the line, we could use the episode data from TvMaze to do that and even more queries. We could sort by TvMaze rating instead of occurrences in our database, for example, or compare both!_
+
+## GET | Get Popular Shows
+`https://immense-dawn-42979.herokuapp.com/api/data/popular`
+#### REQUEST
+![Get popular shows is simple: just use the endpoint](./assets/GET_data_popular.png)
+
+Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
+
+#### RESPONSE:
+![Get popular shows returns an array of objects. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_res.png)
+
+The 200 response will return a list of all the Show titles in our database, with a count of how many times each occur, ordered from greatest to least.
+
+## GET | Get Popular Shows To Watch
+`https://immense-dawn-42979.herokuapp.com/api/data/popular/towatch`
+
+#### REQUEST
+![Get popular shows to watch is simple: just use the endpoint](./assets/GET_data_popular_towatch.png)
+
+Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
+
+#### RESPONSE
+![Get popular shows ton watch returns an array of objects of shows where toWatch = true. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_towatch_res.png)
+
+The 200 response will return a list of Show titles in our database where `toWatch = true`, with a count of how many times each occur, ordered from greatest to least.
+
+## GET | Get Popular Shows Watching
+`https://immense-dawn-42979.herokuapp.com/api/data/popular/watching`
+#### REQUEST
+![Get popular shows watching is simple: just use the endpoint](./assets/GET_data_popular_watching.png)
+
+Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
+
+#### RESPONSE
+![Get popular shows watching returns an array of objects of shows where watching = true. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_watching_res.png)
+
+The 200 response will return a list of Show titles in our database where `watching = true`, with a count of how many times each occur, ordered from greatest to least.
+
+## GET | Get Popular Shows Completed
+`https://immense-dawn-42979.herokuapp.com/api/data/popular/completed`
+#### REQUEST
+![Get popular shows completed is simple: just use the endpoint](./assets/GET_data_popular_completed.png)
+
+Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
+
+#### RESPONSE
+![Get popular shows completed returns an array of objects of shows where watching = true. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_completed_res.png)
+
+The 200 response will return a list of Show titles in our database where `completed = true`, with a count of how many times each occur, ordered from greatest to least.
+
+## DELETE | Delete Show on Watchlist
+`https://immense-dawn-42979.herokuapp.com/api/shows/me/:id`
+#### REQUEST: 
+'`:id`' should be replaced by the show's id in our database.
+
+![Don't forget to send your token!](./assets/DELETE_shows_me_token.png)
+
+Remember to send your token. Select Auth > Bearer token. Then paste your token in the token field.
+
+![Deleting a show on your watchlist by id](./assets/PUT_shows_me.png)
+
+No JSON data needs to be sent for this request. We added this route for the specific circumstance if a user has accidentally added the same show multiple times to their watchlist. In that case, we won't delete by title (since it will occur more than once) but by the show's id.
+
+#### RESPONSE: 
 
 # credits
 [Lee Chenalloy](https://github.com/chenallee)
