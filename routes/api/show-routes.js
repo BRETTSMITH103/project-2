@@ -145,12 +145,11 @@ router.put('/me/:query', checkAuth, (req, res) => {
 
 // delete show by id
 router.delete('/me/:id', checkAuth, (req, res) => {
-
   // set UserID
   req.body.UserId = req.id;
 
   //the functionality for if a user updates something to true the others are false would make more sense in a index.js in a public folder
-  Show.destroy({
+  Show.destroy(req.body, {
     where: {
       [Op.and]: [
         {
@@ -159,7 +158,6 @@ router.delete('/me/:id', checkAuth, (req, res) => {
         {
           id: req.params.query
         }
-
       ]
     },
   })
