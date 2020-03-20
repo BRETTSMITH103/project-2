@@ -33,8 +33,13 @@ Your steps are to:
 * [GET - Get List of Users](#get-|-get-all-users)
 * [GET - Get one User by email/id](#get-|-get-one-user)
 * [GET - Get All Show Instances in Database](#get-|-get-all-shows)
+* [GET - Get Show's TvMaze Info by title/id](#)
+* GET - Get list of Database's Most to Least Popular Shows
+* GET - Get list of Database's Most to Least Popular Shows To Watch
+* GET - Get list of Database's Most to Least Popular Shows Being Watched
+* GET - Get list of Database's Most to Least Popular Shows Completed
 
-## POST | Create User
+## [POST | Create User](#post-|-create-user)
 `https://immense-dawn-42979.herokuapp.com/api/users`
 #### REQUEST: 
 ![POST route to create a user](./assets/POST_users.png)
