@@ -19,7 +19,7 @@ Since there's no front end, to test out the app we've been using insomnia. Follo
 You can get some data without being logged in, but most things will require authentication. Since we're not using the browser, after logging in, you'll be required to send your webtoken along with your request.
 
 Your steps are to:
-1. [Create your user information if you're not already in the database.](#post--create-user)
+1. [Create your User information if you're not already in the database.](#post--create-user)
 2. [Log in with your email and password, and save the webtoken given to you.](#post--log-in)
 3. When sending requests to endpoints that require authentication, make sure to send your webtoken as well!
 
@@ -43,7 +43,7 @@ Your steps are to:
 ## POST | Create User
 `https://immense-dawn-42979.herokuapp.com/api/users`
 #### REQUEST: 
-![POST route to create a user](./assets/POST_users.png)
+![POST route to create a Sser](./assets/POST_users.png)
 
 Select Text > JSON to send. Use this object format:
 ```
@@ -54,7 +54,8 @@ Select Text > JSON to send. Use this object format:
 }
 ````
 #### RESPONSE:
-The 200 response should show you the new user object you created.
+![New user object](./assets/POST_users_res.png)
+The 200 response should show you the new User object you created.
 ## POST | Log in
 `https://immense-dawn-42979.herokuapp.com/api/auth`
 #### REQUEST:
@@ -80,9 +81,11 @@ Make sure to copy the token between the double quotes to use in other requests.
 The only data you will need to send is your token. 
 Select Auth > Bearer token. Then paste your token in the token field.
 #### RESPONSE:
-The 200 response should show you an array containing all of the show objects you added while using the token associated with the logged in user. If you haven't added any shows, it will return an empty array.
+![Array of Show objects indicating User's watchlist](./assets/GET_shows_me_res.png)
 
-_We don't have separate endpoints for My `toWatch`, `watching`, or `completed` because we don't need to restrict the display here. Instead, that can be done in the front end javascript. If we find users' watchlists get very large, however, it will be easy to add those routes if necessary._
+The 200 response should show you an array containing all of the Show objects you added while using the token associated with the logged in User. If you haven't added any shows, it will return an empty array.
+
+_We don't have separate endpoints for My `toWatch`, `watching`, or `completed` because we don't need to restrict the display here. Instead, that can be done in the front end javascript. If we find Users' watchlists get very large, however, it will be easy to add those routes if necessary._
 
 ## POST | Add to Watchlist
 `https://immense-dawn-42979.herokuapp.com/api/shows/me`
@@ -102,33 +105,37 @@ You can send the title only, in which case it will be set as `toWatch = true` by
 	"completed": false
 }
 ```
-_If front end javascript is added, the user will be able to select `toWatch`, `watching`, or `completed`. Whichever is selected will be set true and the other two false in the request. But since that doesn't exist, all three fields must be defined when you are defining this._
+_If front end javascript is added, the User will be able to select `toWatch`, `watching`, or `completed`. Whichever is selected will be set true and the other two false in the request. But since that doesn't exist, all three fields must be defined when you are defining this._
 #### RESPONSE: 
+![An object of the new Show](./assets/POST_shows_me_res.png)
+
 The 200 response should return an object containing the new Show you added to your Watchlist. Unless otherwise specified, `toWatch` is set `true` and the others are set `false`.
 
 ## GET | Get from Watchlist
 `https://immense-dawn-42979.herokuapp.com/api/shows/me/:query`
 
 #### REQUEST:
-'`:query`' should be replaced by the show's title (including spaces) or by the show's id in our database.
+'`:query`' should be replaced by the Show's title (including spaces) or by the Show's id in our database.
 
 ![Don't forget to send your token!](./assets/GET_shows_me_one.png)
 
 Remember to send your token. Select Auth > Bearer token. Then paste your token in the token field.
 #### RESPONSE:
+![An object of the searched show](./assets/GET_shows_me_one_res.png)
+
 The 200 response should return a Show object from your watchlist with a title or id matching what replaced '`:query`'.
 
 ## PUT | Update Show on Watchlist
 `https://immense-dawn-42979.herokuapp.com/api/shows/me/:query`
 
 #### REQUEST:
-'`:query`' should be replaced by the show's title (including spaces) or by the show's id in our database.
+'`:query`' should be replaced by the Show's title (including spaces) or by the Show's id in our database.
 
 ![Don't forget to send your token!](./assets/PUT_shows_me_token.png)
 
 Remember to send your token. Select Auth > Bearer token. Then paste your token in the token field.
 
-![Updating a show on your watchlist by id or title](./assets/PUT_shows_me.png)
+![Updating a Show on your watchlist by id or title](./assets/PUT_shows_me.png)
 
 This can be used to update any part of the Show object, such as title if it's been mispelled, but its main usage is to update the watch status by chaning the booleans `toWatch`, `watching`, and `completed`. 
 Select Text > JSON to send. Use this object format:
@@ -139,54 +146,58 @@ Select Text > JSON to send. Use this object format:
   "completed: "true"
 }
 ````
-_If front end javascript is added, the user will be able to select `toWatch`, `watching`, or `completed`. Whichever is selected will be set true and the other two false in the request. But since that doesn't exist, all three fields must be defined when you are defining this._
+_If front end javascript is added, the User will be able to select `toWatch`, `watching`, or `completed`. Whichever is selected will be set true and the other two false in the request. But since that doesn't exist, all three fields must be defined when you are defining this._
 #### RESPONSE:
-The 200 response should return a message that lets you know whether the update was successful or not.
+![Updating a Show on your watchlist by title or id](./assets/PUT_shows_me_res.png)
+
+The 200 response should return a message that lets you know whether the update was successful or not. Right now it's an array containing 0 or 1.
 
 ## GET | Get All Users
 `https://immense-dawn-42979.herokuapp.com/api/users`
 #### REQUEST: 
-![Get all users is simple: just use the endpoint](./assets/GET_users.png)
+![Get all Users is simple: just use the endpoint](./assets/GET_users.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want.
 #### RESPONSE:
-![Get all users response:](./assets/GET_users_res.png)
+![Get all Users response:](./assets/GET_users_res.png)
 
-The 200 response will return an array containing all user objects (not including their watchlists).
+The 200 response will return an array containing all User objects (not including their watchlists).
 
 ## GET | Get one User
 `https://immense-dawn-42979.herokuapp.com/api/users/:query`
 #### REQUEST:
-'`:query`' should be replaced by the user's email or by their id in our database.
+'`:query`' should be replaced by the User's email or by their id in our database.
 
-![Get one user is simple: use email or id in the query parameter](./assets/GET_users_one.png)
+![Get one User is simple: use email or id in the query parameter](./assets/GET_users_one.png)
 
 Authentication isn't needed, and you don't need to send any JSON data. So this can be used in the browser too, if you want.
 #### RESPONSE:
-![Get one user response:](./assets/GET_users_one_res.png)
+![Get one User response:](./assets/GET_users_one_res.png)
 
-The 200 response will return a user object with an email or id matching what replaced '`:query`' (including a `"Shows"` field which a value of an array containing objects of all Shows on their watchlist).
+The 200 response will return a User object with an email or id matching what replaced '`:query`' (including a `"Shows"` field which a value of an array containing objects of all Shows on their watchlist).
 
 ## GET | Get All Shows
 `https://immense-dawn-42979.herokuapp.com/api/shows/all`
-#### REQUEST
-![Get all shows is simple: just use the endpoint](./assets/GET_shows_all.png)
+#### REQUEST:
+![Get all Shows is simple: just use the endpoint](./assets/GET_shows_all.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want.
-#### RESPONSE
-The 200 response will return an array containing all show objects in the database, with their associated `userId`. This response will contain duplicate titles if multiple users have entered the same title. Each instance can be distinguished by either their `id` or their associated `userId`.
+#### RESPONSE:
+![Get all Shows response returns an array of shows:](./assets/GET_shows_all_res.png)
+
+The 200 response will return an array containing all Show objects in the database, with their associated `userId`. This response will contain duplicate titles if multiple Users have entered the same title. Each instance can be distinguished by either their `id` or their associated `userId`.
 
 ## GET | Get Show Info
 `https://immense-dawn-42979.herokuapp.com/api/data/info/:query`
-#### REQUEST
+#### REQUEST:
 '`:query`' should be replaced by the Show's title (including spaces) or by their id in our database.
 
-![Get show info is simple: just use the endpoint](./assets/GET_data_info.png)
+![Get Show info is simple: just use the endpoint](./assets/GET_data_info.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. Right now it just returns all data sent from the TvMaze API, but there's more to come!
 
-#### RESPONSE
-![Get show info returns the data for the show stored in the TvMaze database](./assets/GET_data_info_res.png)
+#### RESPONSE:
+![Get Show info returns the data for the Show stored in the TvMaze database](./assets/GET_data_info_res.png)
 
 The 200 response will return an object of all the data matching this title from the TvMaze API. We use the stored tvMazeId for our Show to send to the TvMaze database.
 
@@ -194,67 +205,68 @@ _Right now, we don't have any error message in place for when our tvMazeId is nu
 
 ## GET | Get Popular Shows
 `https://immense-dawn-42979.herokuapp.com/api/data/popular`
-#### REQUEST
-![Get popular shows is simple: just use the endpoint](./assets/GET_data_popular.png)
+#### REQUEST:
+![Get popular Shows is simple: just use the endpoint](./assets/GET_data_popular.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
 
 #### RESPONSE:
-![Get popular shows returns an array of objects. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_res.png)
+![Get popular Shows returns an array of objects. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_res.png)
 
 The 200 response will return a list of all the Show titles in our database, with a count of how many times each occur, ordered from greatest to least.
 
 ## GET | Get Popular Shows To Watch
 `https://immense-dawn-42979.herokuapp.com/api/data/popular/towatch`
 
-#### REQUEST
-![Get popular shows to watch is simple: just use the endpoint](./assets/GET_data_popular_towatch.png)
+#### REQUEST:
+![Get popular Shows to watch is simple: just use the endpoint](./assets/GET_data_popular_towatch.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
 
-#### RESPONSE
-![Get popular shows ton watch returns an array of objects of shows where toWatch = true. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_towatch_res.png)
+#### RESPONSE:
+![Get popular Shows ton watch returns an array of objects of Shows where toWatch = true. Each object contains the Show's title and count of occurrences](./assets/GET_data_popular_towatch_res.png)
 
 The 200 response will return a list of Show titles in our database where `toWatch = true`, with a count of how many times each occur, ordered from greatest to least.
 
 ## GET | Get Popular Shows Watching
 `https://immense-dawn-42979.herokuapp.com/api/data/popular/watching`
-#### REQUEST
-![Get popular shows watching is simple: just use the endpoint](./assets/GET_data_popular_watching.png)
+#### REQUEST:
+![Get popular Shows watching is simple: just use the endpoint](./assets/GET_data_popular_watching.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
 
-#### RESPONSE
-![Get popular shows watching returns an array of objects of shows where watching = true. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_watching_res.png)
+#### RESPONSE:
+![Get popular Shows watching returns an array of objects of Shows where watching = true. Each object contains the Show's title and count of occurrences](./assets/GET_data_popular_watching_res.png)
 
 The 200 response will return a list of Show titles in our database where `watching = true`, with a count of how many times each occur, ordered from greatest to least.
 
 ## GET | Get Popular Shows Completed
 `https://immense-dawn-42979.herokuapp.com/api/data/popular/completed`
-#### REQUEST
-![Get popular shows completed is simple: just use the endpoint](./assets/GET_data_popular_completed.png)
+#### REQUEST:
+![Get popular Shows completed is simple: just use the endpoint](./assets/GET_data_popular_completed.png)
 
 Authentication isn't needed, and you don't need to send any data. So this can be used in the browser too, if you want. 
 
-#### RESPONSE
-![Get popular shows completed returns an array of objects of shows where watching = true. Each object contains the show's title and count of occurrences](./assets/GET_data_popular_completed_res.png)
+#### RESPONSE:
+![Get popular Shows completed returns an array of objects of Shows where watching = true. Each object contains the Show's title and count of occurrences](./assets/GET_data_popular_completed_res.png)
 
 The 200 response will return a list of Show titles in our database where `completed = true`, with a count of how many times each occur, ordered from greatest to least.
 
 ## DELETE | Delete Show on Watchlist
 `https://immense-dawn-42979.herokuapp.com/api/shows/me/:id`
 #### REQUEST: 
-'`:id`' should be replaced by the show's id in our database.
+'`:id`' should be replaced by the Show's id in our database.
 
 ![Don't forget to send your token!](./assets/DELETE_shows_me_token.png)
 
 Remember to send your token. Select Auth > Bearer token. Then paste your token in the token field.
 
-![Deleting a show on your watchlist by id](./assets/PUT_shows_me.png)
+No JSON data needs to be sent for this request. We added this route for the specific circumstance if a user has accidentally added the same Show multiple times to their watchlist. In that case, we won't delete by title (since it will occur more than once) but by the Show's id.
+#### RESPONSE:
+![Deleting a show on your watchlist by id](./assets/DELETE_shows_me_res.png)
 
-No JSON data needs to be sent for this request. We added this route for the specific circumstance if a user has accidentally added the same show multiple times to their watchlist. In that case, we won't delete by title (since it will occur more than once) but by the show's id.
+The 200 response should return a message that lets you know whether the update was successful or not. Right now it's 0 or 1.
 
-#### RESPONSE: 
 
 # credits
 [Lee Chenalloy](https://github.com/chenallee)
