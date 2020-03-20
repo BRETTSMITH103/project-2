@@ -47,6 +47,7 @@ router.get('/info/:query', (req, res) =>{
     console.log(err);
     res.json(err);
   })
+
 });
 
 // get most popular shows
