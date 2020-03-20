@@ -156,7 +156,7 @@ router.delete('/me/:id', checkAuth, (req, res) => {
           UserId: req.id
         },
         {
-          id: req.params.query
+          id: req.params.id
         }
       ]
     },
