@@ -19,12 +19,12 @@ Since there's no front end, to test out the app we've been using insomnia. Follo
 You can get some data without being logged in, but most things will require authentication. Since we're not using the browser, after logging in, you'll be required to send your webtoken along with your request.
 
 Your steps are to:
-1. [Create your user information if you're not already in the database.](#post-|-create-user)
+1. [Create your user information if you're not already in the database.](#post--create-user)
 2. [Log in with your email and password, and save the webtoken given to you.](#post-|-log-in)
 3. When sending requests to endpoints that require authentication, make sure to send your webtoken as well!
 
 ## Routes List:
-* [POST - Create User](#post-|-create-user)
+* [POST - Create User](#post--create-user)
 * [POST - Log In](#post-|-log-in)
 * [GET - Get My Watchlist](#get-|-get-my-watchlist)
 * [POST - Add to My Watchlist](#post-|-add-to-watchlist)
@@ -39,7 +39,7 @@ Your steps are to:
 * GET - Get list of Database's Most to Least Popular Shows Being Watched
 * GET - Get list of Database's Most to Least Popular Shows Completed
 
-## [POST | Create User](#post-|-create-user)
+## POST | Create User
 `https://immense-dawn-42979.herokuapp.com/api/users`
 #### REQUEST: 
 ![POST route to create a user](./assets/POST_users.png)
